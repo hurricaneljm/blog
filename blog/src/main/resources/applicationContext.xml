@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    		http://www.springframework.org/schema/beans/spring-beans.xsd
+    		http://www.springframework.org/schema/context
+    		http://www.springframework.org/schema/context/spring-context.xsd
+    		http://www.springframework.org/schema/aop 
+    		http://www.springframework.org/schema/aop/spring-aop.xsd
+    		http://www.springframework.org/schema/tx
+    		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="user" value="root" />
+		<property name="password" value="121909"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3308/blog" />
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="minPoolSize" value="1" />
+		<property name="maxPoolSize" value="5" />
+		<property name="initialPoolSize" value="1" />
+		<property name="maxIdleTime" value="60" />
+		<property name="acquireIncrement" value="3" />
+		<property name="maxStatements" value="0" />
+		<property name="maxStatementsPerConnection" value="0" />
+		<property name="idleConnectionTestPeriod" value="28680" />
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="testConnectionOnCheckout" value="false" />
+	</bean>
+	<bean name="dataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="user" value="hurricane" />
+		<property name="password" value="1003"></property>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:test" />
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="minPoolSize" value="1" />
+		<property name="maxPoolSize" value="5" />
+		<property name="initialPoolSize" value="1" />
+		<property name="maxIdleTime" value="60" />
+		<property name="acquireIncrement" value="3" />
+		<property name="maxStatements" value="0" />
+		<property name="maxStatementsPerConnection" value="0" />
+		<property name="idleConnectionTestPeriod" value="28680" />
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="testConnectionOnCheckout" value="false" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocations" value="classpath:hibernate.cfg.xml" />
+	</bean>
+	<bean id="sessionFactory2"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource2" />
+		<property name="configLocations" value="classpath:hibernate2.cfg.xml" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="transactionManager2"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory2" />
+	</bean>
+
+	<tx:advice id="ad1" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<tx:advice id="ad2" transaction-manager="transactionManager2">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut
+			expression="execution(* com.hurricane.future.blog.service.**.*(..))"
+			id="p1" />
+		<aop:advisor advice-ref="ad1" pointcut-ref="p1" />
+		<aop:advisor advice-ref="ad2" pointcut-ref="p1" />
+	</aop:config>
+
+
+	<aop:aspectj-autoproxy />
+
+	<context:component-scan base-package="com.hurricane.future.blog" />
+
+</beans>

@@ -18,6 +18,20 @@ import com.hurricane.future.blog.domain.User;
 public class TestSpringHibernate {
 
 	@Test
+	public void 打印() {
+		System.out.println("中文方法");
+		int a=-6;
+		for (int i = 0; i < 32; i++) {
+			int t = (a&(0x80000000>>>i))>>>(31-i);
+			System.out.println(t);
+		}
+		System.out.println(0xff>>2);
+		System.out.println(0xff>>>2);//>>与>>>的区别
+	}
+	
+	
+	
+	@Test
 	public void testTransaction() {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 		try {

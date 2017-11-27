@@ -11,8 +11,6 @@
 		<property name="connection.password">121909</property>
 
 
-		<!-- JDBC connection pool (use the built-in) -->
-		<property name="connection.pool_size">1</property>
 		<!-- SQL dialect -->
 		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<!-- Enable Hibernate's automatic session context management -->
@@ -27,6 +25,8 @@
 		<property name="hbm2ddl.auto">update</property>
 		<property name="hibernate.connection.release_mode">after_statement</property>
 		<mapping class="com.hurricane.future.blog.domain.User"/>
+		<mapping class="com.hurricane.future.blog.domain.Category"/>
+		<mapping class="com.hurricane.future.blog.domain.BlogContent"/>
 	</session-factory>
 
 

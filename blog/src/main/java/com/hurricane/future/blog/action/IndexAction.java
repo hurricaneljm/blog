@@ -24,12 +24,12 @@ public class IndexAction extends ActionSupport{
 		this.userService = userService;
 	}
 	
-	public String index() {
+	public String index() throws Exception {
 		logger.info(Thread.currentThread().getName());
 		logger.info("begin index");
 		logger.info(userService.toString());
 		User user = new User();
-		user.setUserName("test");
+//		user.setUserName("test");
 		userService.saveUser(user);
 		logger.info("before return");
 		tInteger++;
@@ -37,7 +37,7 @@ public class IndexAction extends ActionSupport{
 		return "index";
 	}
 	
-	public String index2() { 
+	public String index2() throws Exception { 
 		logger.info(Thread.currentThread().getId());
 		logger.info("begin index");
 		logger.info(userService.toString());

@@ -67,19 +67,21 @@
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory2" />
 	</bean>
-
 	<tx:advice id="ad1" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="save*" propagation="REQUIRED" />
-			<tx:method name="*" read-only="true" />
+			<tx:method name="*" read-only="true" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
 	<tx:advice id="ad2" transaction-manager="transactionManager2">
 		<tx:attributes>
-			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED"
+				rollback-for="Exception" />
 			<tx:method name="*" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
+
+
 	<aop:config>
 		<aop:pointcut
 			expression="execution(* com.hurricane.future.blog.service.**.*(..))"

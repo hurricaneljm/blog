@@ -1,6 +1,7 @@
 package com.hurricane.future.blog.domain;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.hurricane.future.blog.util.ValidateResult;
 
 /**
  * 例如Java,C,linux,windows等
@@ -28,6 +33,10 @@ public class Category {
 	private String description;
 	private boolean isRoot;
 	private Set<Category> childrens=new HashSet<>();
+	private Set<BlogContent> blogContents = new HashSet<>();
+	public static final String NAME_VALIDATERESULT = "NAME";
+	public static final String DESCRIPTION_VALIDATERESULT = "DESCRIPTION";
+	private static Logger logger = LoggerFactory.getLogger(Category.class);
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -65,6 +74,32 @@ public class Category {
 	public void setChildrens(Set<Category> childrens) {
 		this.childrens = childrens;
 	}
-	
+	@OneToMany(mappedBy="category")
+	public Set<BlogContent> getBlogContents() {
+		return blogContents;
+	}
+	public void setBlogContents(Set<BlogContent> blogContents) {
+		this.blogContents = blogContents;
+	}
+	public ValidateResult validate() {
+		ValidateResult result = new ValidateResult();
+		//验证分类名称
+		if (name==null||name.equals("")) {
+			result.getErrorMsg().put(Category.NAME_VALIDATERESULT, "分类名称不能为空");
+			result.setPass(false);
+		}else if (name.length()>20) {
+			String string = Optional.ofNullable(result.getErrorMsg().get(Category.NAME_VALIDATERESULT)).orElse("");
+			result.getErrorMsg().put(Category.NAME_VALIDATERESULT, string+" 分类名称不能为空");
+			result.setPass(false);
+		}
+		if (description!=null&&description.length()>500) {
+			result.getErrorMsg().put(Category.DESCRIPTION_VALIDATERESULT, "分类描述字符数不能超过500");
+			result.setPass(false);
+		}
+		if (!result.isPass()) {
+			logger.warn(result.getErrorMsg().toString());
+		}
+		return result;
+	}
 	
 }

@@ -2,14 +2,11 @@ package com.hurricane.future.blog.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.stereotype.Service;
 
 import com.hurricane.future.blog.dao.TopicDAO;
 import com.hurricane.future.blog.dao.UserDAO;
-import com.hurricane.future.blog.domain.Topic;
 import com.hurricane.future.blog.domain.User;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.PrivateKeyResolver;
 @Service
 public class UserService {
 	private Integer integer =0;

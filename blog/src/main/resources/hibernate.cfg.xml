@@ -6,7 +6,7 @@
 	<session-factory>
 
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="connection.url">jdbc:mysql://localhost:3308/test?useUnicode=true&amp;characterEncoding=utf8</property>
+		<property name="connection.url">jdbc:mysql://localhost:3308/blog?useUnicode=true&amp;characterEncoding=utf8</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password">121909</property>
 
@@ -27,6 +27,7 @@
 		<mapping class="com.hurricane.future.blog.domain.User"/>
 		<mapping class="com.hurricane.future.blog.domain.Category"/>
 		<mapping class="com.hurricane.future.blog.domain.BlogContent"/>
+		<mapping class="com.hurricane.future.blog.domain.LinkFile"/>
 	</session-factory>
 
 

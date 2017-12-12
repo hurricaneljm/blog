@@ -1,12 +1,17 @@
 package com.hurricane.future.blog.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,9 +20,9 @@ public class BlogContent {
 	private long id;
 	private String topic;
 	private String content;
-	private User user;
 	private boolean isIssue;
-	
+	private Category category;
+	private Set<LinkFile> linkfiles = new HashSet<>();
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -41,20 +46,36 @@ public class BlogContent {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	@ManyToOne
-	@JoinColumn(name="userId")
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	@ManyToOne
+//	@JoinColumn(name="userId")
+//	public User getUser() {
+//		return user;
+//	}
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 	@Column(nullable=false)
 	public boolean isIssue() {
 		return isIssue;
 	}
 	public void setIssue(boolean isIssue) {
 		this.isIssue = isIssue;
+	}
+	@ManyToOne
+	@JoinColumn(name="category_id")
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="blogContent_id")
+	public Set<LinkFile> getLinkfiles() {
+		return linkfiles;
+	}
+	public void setLinkfiles(Set<LinkFile> linkfiles) {
+		this.linkfiles = linkfiles;
 	}
 	
 	

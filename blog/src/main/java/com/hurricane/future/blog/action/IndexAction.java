@@ -1,6 +1,7 @@
 package com.hurricane.future.blog.action;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @Controller("indexAction")
 @Scope("prototype")
 public class IndexAction extends ActionSupport{
-	private Logger logger = Logger.getLogger(getClass());
-	private Integer tInteger=0;
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	private UserService userService;
 	public IndexAction() {
 		logger.info("indexAction初始化");
@@ -24,29 +24,9 @@ public class IndexAction extends ActionSupport{
 		this.userService = userService;
 	}
 	
-	public String index() throws Exception {
-		logger.info(Thread.currentThread().getName());
-		logger.info("begin index");
-		logger.info(userService.toString());
-		User user = new User();
-//		user.setUserName("test");
-		userService.saveUser(user);
-		logger.info("before return");
-		tInteger++;
-		ActionContext.getContext().getValueStack().set("name", tInteger);
+	public String index(){
+		logger.debug("请求首页");
 		return "index";
 	}
 	
-	public String index2() throws Exception { 
-		logger.info(Thread.currentThread().getId());
-		logger.info("begin index");
-		logger.info(userService.toString());
-		User user = new User();
-		user.setUserName("tornado");
-		userService.saveUser(user);
-		logger.info("before return");
-		tInteger++;
-		ActionContext.getContext().getValueStack().set("name", tInteger);
-		return "index";
-	}
 }

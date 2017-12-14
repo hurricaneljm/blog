@@ -20,4 +20,9 @@ public class UserDAO {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(user);
 	}
+	public User findUser(String userName, String pwd) {
+		Session session = sessionFactory.getCurrentSession();
+		User user = (User) session.createQuery("from User u where u.userName=:userName or u.email=:email or u.tel=:tel").setParameter("userName", userName).setParameter("email", userName).setParameter("tel", userName).getSingleResult();
+		return user;
+	}
 }

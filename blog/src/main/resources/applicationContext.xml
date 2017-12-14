@@ -42,7 +42,7 @@
 	</bean>
 	<tx:advice id="ad1" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
 			<tx:method name="*" read-only="true" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>

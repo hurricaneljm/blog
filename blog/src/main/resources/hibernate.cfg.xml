@@ -28,6 +28,7 @@
 		<mapping class="com.hurricane.future.blog.domain.Category"/>
 		<mapping class="com.hurricane.future.blog.domain.BlogContent"/>
 		<mapping class="com.hurricane.future.blog.domain.LinkFile"/>
+		<mapping class="com.hurricane.future.blog.domain.SubCategory"/>
 	</session-factory>
 
 

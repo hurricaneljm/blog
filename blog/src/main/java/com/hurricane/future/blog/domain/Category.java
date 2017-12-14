@@ -7,10 +7,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import com.hurricane.future.blog.util.ValidateResult;
 
 /**
+ * 需要新增创建日期
  * 例如Java,C,linux,windows等
  * @author hurricane
  *
@@ -31,9 +34,9 @@ public class Category {
 	private int id;
 	private String name;
 	private String description;
-	private boolean isRoot;
-	private Set<Category> childrens=new HashSet<>();
-	private Set<BlogContent> blogContents = new HashSet<>();
+//	private Set<Category> childrens=new HashSet<>();//hibernate不适合实现子连接
+//	private Set<BlogContent> blogContents = new HashSet<>();//交由SubCategory类进行关联
+	private Set<SubCategory> subCategories = new HashSet<>();
 	public static final String NAME_VALIDATERESULT = "NAME";
 	public static final String DESCRIPTION_VALIDATERESULT = "DESCRIPTION";
 	private static Logger logger = LoggerFactory.getLogger(Category.class);
@@ -59,27 +62,23 @@ public class Category {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	@Column(nullable=false)
-	public boolean isRoot() {
-		return isRoot;
+	
+//	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+//	@JoinColumn(name="childId", referencedColumnName="childId")
+//	public Set<Category> getChildrens() {
+//		return childrens;
+//	}
+//	public void setChildrens(Set<Category> childrens) {
+//		this.childrens = childrens;
+//	}
+
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="category_id")
+	public Set<SubCategory> getSubCategories() {
+		return subCategories;
 	}
-	public void setRoot(boolean isRoot) {
-		this.isRoot = isRoot;
-	}
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="childId")
-	public Set<Category> getChildrens() {
-		return childrens;
-	}
-	public void setChildrens(Set<Category> childrens) {
-		this.childrens = childrens;
-	}
-	@OneToMany(mappedBy="category")
-	public Set<BlogContent> getBlogContents() {
-		return blogContents;
-	}
-	public void setBlogContents(Set<BlogContent> blogContents) {
-		this.blogContents = blogContents;
+	public void setSubCategories(Set<SubCategory> subCategories) {
+		this.subCategories = subCategories;
 	}
 	public ValidateResult validate() {
 		ValidateResult result = new ValidateResult();

@@ -28,7 +28,7 @@ public class User {
 	private String tel;
 	private String email;
 	private String pwd;
-	private Set<Category> Categories = new HashSet<>();
+	private Set<Category> categories = new HashSet<>();
 	public static final String USERNAME_VALIDATERESULT = "USERNAME";
 	public static final String TEL_VALIDATERESULT = "TEL";
 	public static final String EMAIL_VALIDATERESULT = "EMAIL";
@@ -74,10 +74,10 @@ public class User {
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	public Set<Category> getCategories() {
-		return Categories;
+		return categories;
 	}
 	public void setCategories(Set<Category> categories) {
-		Categories = categories;
+		this.categories = categories;
 	}
 	
 	
@@ -118,5 +118,12 @@ public class User {
 		}
 		return result;
 	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + userName + ", tel=" + tel + ", email=" + email + ", pwd=" + pwd
+				+ ", Categories=" + categories + "]";
+	}
+	
+	
 	
 }

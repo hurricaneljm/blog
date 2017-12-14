@@ -21,7 +21,6 @@ public class BlogContent {
 	private String topic;
 	private String content;
 	private boolean isIssue;
-	private Category category;
 	private Set<LinkFile> linkfiles = new HashSet<>();
 	
 	@Id
@@ -34,7 +33,7 @@ public class BlogContent {
 	}
 	@Column(length=250,nullable=false)
 	public String getTopic() {
-		return topic;
+		return topic; 
 	}
 	public void setTopic(String topic) {
 		this.topic = topic;
@@ -60,14 +59,6 @@ public class BlogContent {
 	}
 	public void setIssue(boolean isIssue) {
 		this.isIssue = isIssue;
-	}
-	@ManyToOne
-	@JoinColumn(name="category_id")
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="blogContent_id")
